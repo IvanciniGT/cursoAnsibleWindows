@@ -1,0 +1,148 @@
+# Un documento YAML es UN nodo.
+# Los documentos YAML pueden incluir comentarios, com este.
+# Un fichero YAML puede contener muchos documentos YAML
+# Cada documento YAML en un fichero, va precedido del signo: ---
+#   Salvo el primer documento
+---
+# 2 tipos de nodos:
+# Escalares
+# De colección
+---
+# Escalares:
+## Números
+17
+---
+17.98
+---
+-32
+---
+# Valor nulo
+~
+---
+## Valores lógicos:
+true # True TRUE
+---
+false # False FALSE
+---
+# Cuidado:
+# Hoy en día estamos en la spec de YAML 1.2. Antiguamente, se permitían los valores lóogicos:
+yes Yes YES
+y Y
+No no NO
+n N
+On ON on
+Off OFF off
+# Problema que hay mucho código antiguo que lleva estos valores.
+# Muchos programas que leen documentos YAML, siguen aceptando todos esos valores, o al menos una parte
+# Pero no hay garantía de por cuanto tiempo lo seguirán haciendo:
+# Si veis algo de esto, inmediatamente se cambia por TRUE / FALSE
+---
+# Textos
+# Escenario 1
+H'ola #amigo
+---
+# Escenario 2
+H'o\la \n#amigo    # Escapamos con contrabarra
+                    # Hay muchos caracteres escapables:
+                    # \\
+                    # \n \r \t
+---
+# Escenario 3
+'H''ola \n#amigo'    # Escapamos con comilla
+                    # Solo la comilla es escapable, con otra comilla
+---
+# Sintaxis literal
+|+
+ Aqui tengo #un texto
+    Que \nsigue 'aquí'
+
+ Y más aún
+
+
+    
+---
+# Sintaxis folded
+>
+    Aqui tengo #un texto
+     Que \nsigue 'aquí'
+    
+    Y más aún
+
+---
+# INVALIDO 
+23
+47
+---
+# Nodos de colección:
+## Listas: Secuencias ordenadas de nodos
+- nodo 1
+- nodo 2
+- 3
+- False
+---
+
+- item 1
+-   - subitem 1
+    - subitem 2
+
+-   
+            - subitem 1
+            - subitem 2
+---
+[ 1, item 1, False ] # Se usa menos... 
+# pero, hay un caso, donde no hay alternativa:
+[] # Lista vacia
+---
+## Mapas
+# Secuencias no ordenadas de nodos, donde cada nodo, va identificado por una clave
+clave1: item 1
+clave2: item 2
+clave3: item 3
+--- # estos 2 documentos son iguales para YAML
+clave2: item 2
+clave3: item 3
+clave1: item 1
+---
+clave3: item 3
+clave1: item 1
+clave2: item 2
+---
+clave3: 33
+clave1: item 1
+clave2: 
+    - item 1
+    - item 2
+clave4:
+    clave3: ~
+    clave1: item 1
+    clave2: item 2
+---
+#Los mapas tienen una representación alternativa, igual que las listas:
+{ clave1: valor1, clave2: valor2 } # Se usa poco... Salvo 1 caso:
+{} # Cuando quiero indicar un mapa vacio
+
+---
+# Al trabajar con YAML, se usa un ESQUEMA
+# Un esuqema es un documento que indica qué estructura debe seguir un determinado archivo YAML:
+# Que Etiquetas (claves de las de arriba) debo/puedo poner en un documento, y que estructura deben seguir.
+
+---
+
+ansible_facts: 
+    all_ipv4_addresses: 
+        - 172.31.8.35
+        - 172.17.0.1
+    all_ipv6_addresses: 
+        - fe80::e4:b5ff:fe41:cc45
+    ansible_local: {}
+    apparmor: 
+        status: enabled
+    architecture: x86_64, 
+    bios_date: 10/16/2017
+    bios_version: 1.0
+    cmdline: 
+        BOOT_IMAGE: /boot/vmlinuz-5.4.0-1069-aws
+        console: ttyS0
+        nvme_core.io_timeout: 4294967295
+        ro: true
+        root: UUID=525a0bee-8b67-4eda-8945-fd2dfece58cf

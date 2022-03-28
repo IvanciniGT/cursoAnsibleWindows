@@ -1,0 +1,87 @@
+- # PLAY: 'Programa': Un estado en el quiero encontrar un entorno remoto
+    # vamos a tener un fichero de inventario. 
+    # Esta marca limita dentro de ese inventario donde puedo ejecutar el playbook.
+    # Este no es el único sitio donde establecer esta limitación.
+    # Es mucho más frecuente, esa limitación hacerla en tiempo de ejecución.
+    # Así es más flexible.
+    hosts: localhost        # Entornos en los que poder ejecutar este play
+                            # Una práctica habitual es poner:
+                            # - "all": Todos los del inventario
+                            # - nombre de host: "localhost", "mipc17", "bbdd.produccion.es"
+                            # - rango de maquinas: "bbdd1.produccion.es:bbdd9.produccion.es"
+                            # - grupo: Los hosts, en los inventarios, los podré clasificar en grupos.
+                            #   "produccion"
+                            #   "servidores-web"
+                            # - Combinaciones de grupos
+                            #   "servidores-web:&produccion" Los servidores web de producción
+                            #   "servidores-web:!produccion" Los servidores web de no son de producción
+    
+    # Al ejecutarse sobre 25 servidores... Como funciona eso? 
+    # Se va de 1 en 1 o cómo? Depende cómo configure la ejecución.
+    # Definiremos un tamaño de pool de ejecutores: Cuantos en paralelo: 7
+    # Y en que orden se van procesando? Da igual?
+    # Me temo que on... Hay muchos escenarios donde NO DA IGUAL:
+    # SQL Server Activo / Replica:
+    # 1º Activo.   actualiza a la nueva versión
+    #                VVV
+    # 2º Replica.  actualiza a la nueva versión
+    
+    # Activo/Pasivo: H/A
+    # IIS Maquina 1 - Running
+    # IIS Maquina 2 - Pasivo - StandBy
+
+    # Actualizo el standby tranquilidad... Si se jode no pasa nada... no corto servicio
+    # Cambio... y ya actualizo el que era activo
+    order: inventory            # Según el orden del inventario
+         # sorted               # Orden alfabético 
+         # reversed_sorted      # Orden alfabético descendente
+         # reversed_inventory   # Orden del inventario invertido 
+         # shuffle              # Orden aleatorio
+
+    gather_facts: True 
+                 #False     # Desactivo completamente que se lean datos del entorno remoto
+                            # Por defecto, Ansible se trae un huevon de datos del remoto.
+                            # En la práctica no quiero NI LO UNO NI LO OTRO.
+
+    vars:                   # Definir variables para su uso dentro del playbook
+                            # Parametros, configuraciones personalizables que puedo hacer sobre los plays
+        mi_variable1: VALOR1
+        mi_variable2: VALOR2
+    tasks:                  # QUITAR LA PALABRA TASK DE VUESTRO CEREBRO. Aqui la tengo que poner
+                            # Definir los ESTADOS ddeseados.
+#        -   name:
+#            tipo:  # Corresponde con un MODULO DE ANSIBLE
+#                parametrizacion...
+        -   name: Tarea 1
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                msg: Soy la tarea 1... y me estoy ejecutando.
+                
+#            ejecutar-script-powershell...
+#            Que sabe el modulo de si aquello ha realizado cambios?
+
+        -   name: Tarea 2 - Mostrar las ips recopiladas de la máquina
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                var: ansible_facts.all_ipv4_addresses
+            
+        -   name: Tarea 3 - Mostrar variable 1
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                var: mi_variable1
+            
+        -   name: Tarea 4 - Mostrar variable 2
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                var: mi_variable2
+
+        -   name: Tarea 5 - Mostrar variable 2... con una redefinición
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                var: mi_variable2.clave2[0]
+            vars:
+                mi_variable2: 
+                    clave1: 33
+                    clave2:
+                        - item1
+                        - True
+
+        -   name: Tarea 6 - Mostrar variable 2
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                var: mi_variable2
+
