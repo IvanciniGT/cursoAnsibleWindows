@@ -47,6 +47,13 @@
                             # Parametros, configuraciones personalizables que puedo hacer sobre los plays
         mi_variable1: VALOR1
         mi_variable2: VALOR2
+        instalar:   false
+
+    pre_tasks:
+        -   name: Pretarea 1
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                msg: Soy la PREtarea 1... y me estoy ejecutando.
+
     tasks:                  # QUITAR LA PALABRA TASK DE VUESTRO CEREBRO. Aqui la tengo que poner
                             # Definir los ESTADOS ddeseados.
 #        -   name:
@@ -85,3 +92,61 @@
             debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
                 var: mi_variable2
 
+        # Logica al playbook
+        
+        # Condicionales
+        -   name: Tarea 7 - Mostrar un mensaje solo si hay que instalar
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                msg: Vamos a instalar !!!!!!
+            when:    instalar
+            #when:   instalar == true
+            
+        -   name: Tarea 8 - Cambiar el fichero de configuracíon A
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                msg: Cambiando el fichero A.....
+            # Expresión lógica (IF) para determinar si esta tarea debe considerarse que ha provocado un cambio
+            changed_when: true #
+            # La tarea que notificamos SOLO ES ACTIVADA si esta tarea.. 
+            # la que estoy definiendo en estas lineas.... TAREA 8
+            # Provoca un CAMBIO : CHANGED
+            notify: Tarea B - REINICIO DEL SISTEMA
+                
+        -   name: Tarea 9 - Cambiar el fichero de configuracíon B
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                msg: Cambiando el fichero B.....
+            changed_when: true #
+            # En este caso, si esta tarea provoca un cambio (changed),
+            # Se notifica un EVENTO, lo que implica que TODAS LAS TAREAS
+            # Que escuchan el evento, se ejecutan.
+            notify: CAMBIO-CONFIGURACION 
+        
+        -   name: Tarea 10 - Otras cosas que hay que hacer....
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                msg: Muchas cosas
+            # Expresión lógica (IF) para determinar si esta tarea debe considerarse que ha provocado un fallo
+            failed_when: true #
+
+    post_tasks:
+        -   name: Posttarea 1
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                msg: Soy la Posttarea 1... y me estoy ejecutando.
+
+
+# Otras tareas, que se podrán ejecutar o no, dependiendo si han sido activadas.
+# En caso de que un handler sea activado(notify), 
+# su ejecución es postpuesta hasta el final de las tareas del bloque (pretasks, tasks, posttasks)
+# desde el que se hizo el notify.
+
+    handlers:
+        
+        -   name: Tarea A - PARADA DEL SISTEMA
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                msg: Parada del sistema
+            listen: CAMBIO-CONFIGURACION # Le asociamos un evento 
+                
+        -   name: Tarea B - REINICIO DEL SISTEMA
+            debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
+                msg: Reinicio el sistema
+            listen: CAMBIO-CONFIGURACION 
+
+        

@@ -175,3 +175,22 @@ python                                          python
 Ansible    ----> sobre otro ordenador ---->     Trabajo remoto  
 + playbook
 + inventario
+
+
+
+App: 
+ficheros Configuración A > Reinicio
+ficheros Configuración B > Reinicio
+Ejecuto script BBDD
+Y otros cientos de cosas!!!!!
+Reinicio de la app
+
+
+Pre_tasks
+Handlers lanzados en pre_tasks
+tasks
+Handlers lanzados en tasks
+Post_tasks
+Handlers lanzados en post_tasks
+
+Las tareas las clasificamos en PRE, TASKS, POST, en función de su naturaleza.
