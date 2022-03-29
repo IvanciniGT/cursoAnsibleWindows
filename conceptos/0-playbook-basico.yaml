@@ -119,17 +119,85 @@
             # Se notifica un EVENTO, lo que implica que TODAS LAS TAREAS
             # Que escuchan el evento, se ejecutan.
             notify: CAMBIO-CONFIGURACION 
-        
+
+        -   meta: flush_handlers        # Fuerza la ejecución de los handlers que hayan sido activados
+                                        # en este momento de la ejecución
+
         -   name: Tarea 10 - Otras cosas que hay que hacer....
             debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
                 msg: Muchas cosas
             # Expresión lógica (IF) para determinar si esta tarea debe considerarse que ha provocado un fallo
-            failed_when: true #
+            failed_when: false #
 
     post_tasks:
         -   name: Posttarea 1
             debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
                 msg: Soy la Posttarea 1... y me estoy ejecutando.
+        
+        # Bucles
+        -   name: Tarea que se ejecuta en bucle
+            debug:
+                msg: |-
+                    Soy la tarea que abre puertos del firewall de windows.
+                    Voy a abrir el puerto: {{ item }}
+            loop: "{{ puertos }}"
+            vars:
+                puertos: #[80, 8080, 8443]
+                    - 80
+                    - 8080
+                    - 8443
+                    
+        -   name: Ejecutar script
+            #win_shell: |
+            shell: |
+                echo HOLA
+                ls -l
+            register: SALIDA_SCRIPT
+
+        -   name: Ver salida script
+            debug:
+                msg: |
+                    Codigo salida: {{ SALIDA_SCRIPT.rc }}
+                    Comando: {{ SALIDA_SCRIPT.cmd }}
+                    stdout: {{ SALIDA_SCRIPT.stdout }}
+
+        # Bucles
+        -   name: Tarea que se ejecuta en bucle
+            shell: |
+                  echo PUERTO: {{ item }}
+            loop: "{{ puertos }}"
+            vars:
+                puertos: #[80, 8080, 8443]
+                    - 80
+                    - 8080
+                    - 8443
+            register: SALIDA_PROGRAMA_PUERTOS
+
+        -   name: Ver salida script
+            debug:
+                var: SALIDA_PROGRAMA_PUERTOS.results[1].stdout
+
+        # Control de errores
+        
+        -   name: Hago copia de seguridad
+            debug:
+                msg: Hago copia de seguridad
+                
+        -   name: Nombre del bloque
+            block:
+                -   name: Tarea delicada, que puede fallar
+                    shell: exit 1
+            rescue: # Pondremos tareas que queremos ejecutar si alguna de las tareas del bloque ha fallado
+                -   name: Restauro copia de seguridad
+                    debug:
+                        msg: Restauro copia de seguridad
+            always: # Pondremos tareas que queremos ejecutar siempre, con independencia de si alguna tarea falló
+                -   name: Borrar copia de seguridad
+                    debug:
+                        msg: Borrar copia de seguridad
+            #vars:
+            #when: CONDICION
+        
 
 
 # Otras tareas, que se podrán ejecutar o no, dependiendo si han sido activadas.
