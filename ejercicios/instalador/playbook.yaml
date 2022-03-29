@@ -1,0 +1,135 @@
+-   hosts: all
+    
+    vars:
+        software:
+            - nombre: apache
+              ruta_instalador: En una carpeta en red en mi oficina.
+              url_instalador: Descargarlo de una web.
+              # Repo git con el fichero config
+              configuracion: http://.......configuracion.conf
+              argumentos_instalador: []
+              puertos:
+                - 80
+                - 443
+
+
+    pre_tasks:
+        -   name: Asegurarme que hay unas carpetas temporales donde ubicar recursos necesarios
+            block:
+                -   name: Crear carpeta temporal base
+                    #modulo: parametros
+                    
+                -   name: Crear carpeta para cada software
+                    #modulo: parametros
+                    #          item.nombre
+                    loop: "{{ software }}"
+            tags:
+                - preparacion
+                    
+        -   name: Asegurarme que tengo los programas de instalación
+            block:
+                -   name: Descargar los programas de instalación que sean descargables
+                    #modulo: parametros
+                    #          item.url_instalador
+                    when: item.url_instalador is defined
+                    loop: "{{ software }}"
+                  
+                -   name: Traerme de un entorno de mi red un programas de instalación que ya hubiera conseguido por algún medio
+                    #modulo: parametros
+                    #          item.ruta_instalador
+                    when: item.ruta_instalador is defined
+                    loop: "{{ software }}"
+            tags:
+                - preparacion
+    
+        # Acabo con unos ejecutables en una carpeta: c:\windows\temp
+        -   name: Hacerme con las configuraciones
+            block:
+                -   name: Descargar configuraciones de un scm
+                    #modulo: parametros
+                    #          item.configuracion
+                    when: item.configuracion is defined
+                    loop: "{{ software }}" # lista de valores... de donde la sacas
+            tags:
+                - preparacion
+    
+        # Acabo con unas configuraciones en una carpeta: c:\windows\temp
+    tasks:
+        - name: Asegurar que el software queda instalado en la máquina
+          #modulo: parametros
+          #          item.nombre
+          # Con que parametros?
+          #         item.argumentos_instalador
+          loop: "{{ software }}"
+          tags:
+            - instalacion
+        # En la medida de lo posible NUNCA JAMAS NUNCA JAMAS DE LOS JAMASES EJECUTO UN COMANDO.... NUNCA !!!!
+        
+        # Siempre quiero ejecutar el instalador?
+        # "Ejecutar instalador" es el nombre que NUNCA JAMAS DE LOS JAMASE MAS QUE LOS DE ARRIBA DE LOS JAMAS MAS NUNCA LO PONDRIA 
+        # En que caso no? Si ya está instalado.
+        
+        - name: Asegurar que hay la configuración adecuada
+        # modulo... que hará la copia a la ubicacion correcta... pero entre medias... sustituirá algunos parametros
+          loop: "{{ software }}"
+          tags:
+            - configuracion
+          notify: CAMBIO_CONFIGURACION_SERVICIO
+        
+        - name: Asegurar que hay un servicio creado y configurado
+        # modulo... que hará la copia a la ubicacion correcta... pero entre medias... sustituirá algunos parametros
+          loop: "{{ software }}"
+          tags:
+            - configuracion
+        
+        - name: Asegurar que los puertos queden abiertos
+        # modulo... que hará la copia a la ubicacion correcta... pero entre medias... sustituirá algunos parametros
+            # Cómo me refiero a un puerto????
+            # Puerto: item[1]             item.1
+            # Nombre: item[0].nombre      item.0.nombre
+            
+          loop: "{{ software | subelements('puertos') }}"
+          tags:
+            - configuracion
+        
+        
+
+    post_tasks:
+        -   name: Asegurar que el servicio queda iniciado
+            # modulo... que hará la copia a la ubicacion correcta... pero entre medias... sustituirá algunos parametros
+            loop: "{{ software }}"
+            tags:
+            - configuracion
+        -   name: Asegurarme que no queda basura ni temporales
+            block:
+                -   name: Crear carpeta temporal base
+                    #modulo: parametros
+            tags:
+                - limpieza    
+        -   name: Smoke Test
+            block:
+                -   name: 
+                    # Puerto?
+                    # Proceso corriendo?
+                    # Llamada a programa
+                    #
+            tags:
+                - tests
+        
+    
+    
+    handlers:
+        - name: Reiniciar Servicio
+        # modulo... que hará la copia a la ubicacion correcta... pero entre medias... sustituirá algunos parametros
+          loop: "{{ software }}"
+          tags:
+            - configuracion
+          listen:
+            - CAMBIO_CONFIGURACION_SERVICIO
+        
+
+
+#######
+#.       $ ansible-playbook -i inventario.??? --skip-tags="preparacion,limpieza"  playbook.yaml #.       
+#.       $ ansible-playbook -i inventario.??? --tags="instalacion"  playbook.yaml 
+

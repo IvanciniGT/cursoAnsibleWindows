@@ -81,3 +81,48 @@ Cuando un módulo se ejecuta, el módulo ofrece una información de vuelta a ans
         - Otras ... tantas como quiera:
             Fichero..
             Socket...
+            
+# En un conjunto de maquinas quiero instalar una aplicación: mysql, apache, web iis, sql server
+# La aplicacion será una variable.
+# Requiere de una configuración: Fichero 
+# Servicio a nivel de SO. que haya que dejar configurado
+# Puerto abrirlo en el firewall
+
+
+
+Todo esto tiene sentido si voy a gestionar una infraestrcutura importante
+
+Playbook : Servidores web
+    Instala un servidor web
+    
+    Quiero una maquina lista para ser Servidor web con todo actualizado.
+    
+    
+    inventario ... < les aplico el playbook cada semana
+        Tener todo igual
+        Tener todo actualizado
+        Maquinas nuevas igual que las otras
+    
+    
+    
+Lenguaje informaticos:
+    Programación
+         bash
+         psh
+         java
+         js
+         python
+    Modelado
+        uml
+    Queries
+        sql
+    Marcado de información:
+            html
+            xml
+        sgml
+        json
+        yaml - Ansible - Declarando estados
+
+
+gitlab y github
+    CI/CD ~ Jenkins  YAML
