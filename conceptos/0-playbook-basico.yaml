@@ -101,6 +101,21 @@
             when:    instalar
             #when:   instalar == true
             
+            # En cualquier condicion:
+            # - when
+            # - changed_when
+            # - failed_when
+            # Podeis usar los operadores: > < >= <= != ==
+            # 'is search'
+            # Expresiones del tipo: 
+            #       variable_que_contiene_texto is search('REGEX')
+            #       variable_que_contiene_texto is search('ERROR|Error|error')
+            #
+            # En estas de abajo no podeis usar regex:
+            #       'ERROR' in variable_que_contiene_texto
+            #       'ERROR' not in variable_que_contiene_texto
+
+            
         -   name: Tarea 8 - Cambiar el fichero de configuracíon A
             debug: # Este módulo lo único que hace es sacar un triste mensaje por pantalla.
                 msg: Cambiando el fichero A.....
@@ -140,6 +155,29 @@
                 msg: |-
                     Soy la tarea que abre puertos del firewall de windows.
                     Voy a abrir el puerto: {{ item }}
+                # Concepto de interpolación: Reemplazar una variable dentro de un texto por su valor.
+                # Nos ayuda un placeholder de jinja {{ nombre_variable }}
+                # realmente jinja permite ahí dentro poner:
+                # - Funciones   {{ nombre-funcion(variable) }}
+                # - Filtros:    {{ variable | nombre-filtro }}
+                #    {{ texto | default('valor por defecto') }} 
+
+                #    {{ texto | upper }} Pone el valor de la variable texto en MAYUSCULAS
+                #    {{ texto | lower }} 
+                #    {{ texto | capitalize }} 
+                #    {{ texto | title }} 
+                #    {{ texto | trim }}  Comote espacios en blanco por delante y detrás
+                
+                #  {{ lista | first }}
+                #  {{ lista | sum }}
+                #  {{ lista | last }}
+                #  {{ lista | length }}
+                #  {{ lista | max }}
+                #  {{ lista | min }}
+                #  Listado de filtro jinja: https://jinja.palletsprojects.com/en/3.1.x/templates/#builtin-filters
+                    
+                    
+                    
             loop: "{{ puertos }}"
             vars:
                 puertos: #[80, 8080, 8443]
@@ -166,12 +204,67 @@
             shell: |
                   echo PUERTO: {{ item }}
             loop: "{{ puertos }}"
+            # Los bucles antiguamente se hacían con otro tipo de palabras en ansible.
+            # with_
+            # Los with_ están deprecated...
+            
+            # Hay muchos tipos de bucles y algunos complejos. Antes existian muchas funciones WITH 
+            # para cada tipo de bucle... Hoy en dia, hay funciones JINJA para ello.
+            
+            # Mirar tipos de bucle en: 
+            # https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html#id21
+            
+            
+            # Tipos de bucles:
+            # - SENCILLO: me dan una lista y recorro sus valores, 
+            #             haciendo la tarea para cada uno de los valores de la lista.
+            # - ITERA DOS LISTAS A LA VEZ . zip
+            #       [1,2,3][A,B,C]
+            #            iteracion 1: 1,A
+            #            iteracion 2: 2,B
+            #            iteracion 3: 3,C
+            # - MULTIPLICAR DOS LISTAS ENTRE SI: Producto Cartesiano
+            #       [1,2,3][A,B,C]
+            #           iteracion 1, A
+            #           iteracion 1, B
+            #           iteracion 1, C
+            #           iteracion 2, A
+            #           iteracion 2, B
+            #           iteracion 2, C
+            #           iteracion 3, A
+            #           iteracion 3, B
+            #           iteracion 3, C
+            # - ITERAR CADA ELEMENTO DE UNA LISTA CON UN SUBELEMENTO
+            #       [
+            #            - servicio: http
+            #              puertos:
+            #                - 80
+            #                - 8080
+            #            - servicio: https
+            #              puertos: 
+            #                - 443
+            #                - 8443
+            #       ]
+            #               iteracion 1: http - 80
+            #               iteracion 2: http - 8080
+            #               iteracion 3: https - 443
+            #               iteracion 4: https - 8443
             vars:
                 puertos: #[80, 8080, 8443]
                     - 80
                     - 8080
                     - 8443
             register: SALIDA_PROGRAMA_PUERTOS
+            # Qué se guarda dentro de la variable registrada? SALIDA_PROGRAMA_PUERTOS?
+            # Los datos que nos diga el módulo en su documentación que se ofrecen como datos de salida
+
+            # Con independencia del módulo que se haya ejecutado en la tarea 
+            # de la que hemos hecho un register, siempre podremos consultar:
+            # SALIDA_PROGRAMA_PUERTOS is failed
+            # SALIDA_PROGRAMA_PUERTOS is succeded
+            # SALIDA_PROGRAMA_PUERTOS is changed
+            # SALIDA_PROGRAMA_PUERTOS is skipped
+
 
         -   name: Ver salida script
             debug:
@@ -197,6 +290,20 @@
                         msg: Borrar copia de seguridad
             #vars:
             #when: CONDICION
+        -   name: Una tarea ETIQUETADA
+            debug:
+                msg: Hola, me ejecuto
+            tags:
+                - instalacion
+                - test
+                - configuracion
+                - backup
+            # El haber definido tags, nos permite posteriormente solicitar la ejecución SOLO DE las tareas
+            # CON UN DETERMINADO TAG den un playbook...
+            # O lo contrario: SOLO LAS TAREAS que NO TENGAN UN TAG (excluya un tag)
+            #$ ansible-playbook 
+            #    --skip-tags=SKIP_TAGS
+            #    -t TAGS, --tags=TAGS  only run plays and tasks tagged with these values
         
 
 
