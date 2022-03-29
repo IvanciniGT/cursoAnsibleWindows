@@ -1,0 +1,57 @@
+software:
+    
+- nombre: apache
+  [...]
+  puertos:
+    - 80
+    - 443
+
+- nombre: mysql
+  [...]
+  puertos:
+    - 3306
+
+---
+software | subelements('puertos')
+---
+
+-   - nombre: apache
+      [...]
+      puertos:
+        - 80
+        - 443
+
+    - 80
+
+
+-   - nombre: apache
+      [...]
+      puertos:
+        - 80
+        - 443
+
+    - 443
+
+
+-   - nombre: mysql
+      [...]
+      puertos:
+        - 3306
+
+    - 3306
+
+---
+
+ITEM:
+- nombre: mysql
+  [...]
+  puertos:
+    - 3306
+
+- 3306
+
+
+Puerto: item[1]             item.1
+Nombre: item[0].nombre      item.0.nombre
+
+
