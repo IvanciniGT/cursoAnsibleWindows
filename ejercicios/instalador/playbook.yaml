@@ -12,7 +12,6 @@
               argumentos_instalador: []
               puertos:
                 - 80
-                - 443
 
 
     pre_tasks:
@@ -127,17 +126,19 @@
             - configuracion
 
         -   name: Borrar carpetas si existen
-            debug:
-                msg: Borrar carpeta raiz
+            win_file:
+                path: c:\temporal
+                state: absent
             tags:
                 - limpieza    
 
         -   name: Smoke Test
             block:
                 -   name: Comprobar servicios
-                    debug:
-                        msg: Comprobar servicio iniciado {{ item.nombre }}
-                    loop: "{{ software }}"
+                    win_uri:
+                        url: "http://localhost:{{ item[1] }}"
+                        status_code: 200
+                    loop: "{{ software | subelements('puertos') }}"
             tags:
                 - tests
         
