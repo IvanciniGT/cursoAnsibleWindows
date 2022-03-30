@@ -1,7 +1,8 @@
--   hosts: localhost #all
+-   hosts: windows #all
     
     vars:
         software:
+            # DESASTRE GIGANTE !!!!! MIERDA MAGNA !
             - nombre: apache
               ruta_instalador: //servidor17/caprtasoftware/software3
               url_instalador: http://.......instalador.exe
@@ -17,12 +18,19 @@
         -   name: Asegurarme que hay unas carpetas temporales donde ubicar recursos necesarios
             block:
                 -   name: Carpeta temporal base
-                    debug:
-                        msg: Asegurando que existe carpeta temporal
-                    
+                    #debug:
+                    #    msg: Asegurando que existe carpeta temporal
+                    win_file:
+                        path: c:\temporal
+                        state: directory
+
                 -   name: Asegurando que existe carpeta para cada software
-                    debug:
-                        msg: "Creando carpeta del software: {{ item.nombre }}"
+                    #debug:
+                    #    msg: "Creando carpeta del software: {{ item.nombre }}"
+                    win_file:
+                        path: "c:\\temporal\\{{ item.nombre }}"
+                        state: directory
+
                     loop: "{{ software }}"
             tags:
                 - preparacion

@@ -1,0 +1,13 @@
+ansible_connection: ssh
+ansible_user: Administrator
+ansible_password: XXXXXX
+software:
+    - nombre: apache
+      ruta_instalador: //servidor17/caprtasoftware/software6
+      url_instalador: http://.......instalador.exe
+      # Repo git con el fichero config
+      configuracion: http://.......configuracion.conf
+      argumentos_instalador: []
+      puertos:
+        - 80
+        - 443

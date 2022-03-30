@@ -1,0 +1,9 @@
+- hosts: windows
+  gather_facts: false
+  tasks:
+    - name: Prueba conexión
+      win_ping:
+    - name: Asegurarse que la carpeta existe
+      win_file:
+        path: c:\CarpetaPruebaIvan
+        state: directory
