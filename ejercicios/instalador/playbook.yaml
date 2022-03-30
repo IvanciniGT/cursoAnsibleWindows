@@ -4,10 +4,11 @@
         software:
             # DESASTRE GIGANTE !!!!! MIERDA MAGNA !
             - nombre: apache
-              ruta_instalador: //servidor17/caprtasoftware/software3
-              url_instalador: http://.......instalador.exe
+              #ruta_instalador: ~
+              url_instalador: "https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi"
               # Repo git con el fichero config
-              configuracion: http://.......configuracion.conf
+              configuracion: "https://github.com/IvanciniGT/webEjemploAnsible"
+              service_command: C:\Program Files (x86)\Apache Software Foundation\Apache2.2\bin\httpd.exe -k runservice
               argumentos_instalador: []
               puertos:
                 - 80
@@ -38,8 +39,13 @@
         -   name: Asegurarme que tengo los programas de instalación
             block:
                 -   name: Descargar los programas de instalación que sean descargables
-                    debug:
-                        msg: "Descarga software {{ item.url_instalador }}"
+                    win_get_url:
+                        url: "{{ item.url_instalador }}"
+                        dest: "c:\\temporal\\{{ item.nombre }}\\instalador.msi"
+                        force: no
+                        
+                    #debug:
+                    #    msg: "Descarga software {{ item.url_instalador }}"
                     when: item.url_instalador is defined
                     loop: "{{ software }}"
                   
@@ -65,10 +71,10 @@
         # Acabo con unas configuraciones en una carpeta: c:\windows\temp
     tasks:
         - name: Asegurar que el software queda instalado en la máquina
-          debug:
-            msg: |
-                Asegurar presencia de  {{ item.nombre }}
-                Configuración del instalador {{ item.argumentos_instalador }}
+          win_package:
+                path: "c:\\temporal\\{{ item.nombre }}\\instalador.msi"
+                state: present
+
           loop: "{{ software }}"
           tags:
             - instalacion
@@ -87,8 +93,11 @@
           notify: CAMBIO_CONFIGURACION_SERVICIO
         
         - name: Asegurar que hay un servicio creado y configurado
-          debug:
-            msg: Asegurar servicio {{ item.nombre }}
+          win_service:
+            name: "{{ item.nombre }}"
+            path: "{{ item.service_command }}"
+            display_name: "Servicio de {{ item.nombre | title }} creado desde Ansible"
+            start_mode: auto
           loop: "{{ software }}"
           tags:
             - configuracion
@@ -109,8 +118,9 @@
 
     post_tasks:
         -   name: Asegurar que el servicio queda iniciado
-            debug:
-                msg: Asegurar servicio iniciado {{ item.nombre }}
+            win_service:
+                name: "{{ item.nombre }}"
+                state: started
             # modulo... que hará la copia a la ubicacion correcta... pero entre medias... sustituirá algunos parametros
             loop: "{{ software }}"
             tags:
@@ -135,8 +145,9 @@
     
     handlers:
         - name: Reiniciar Servicio
-          debug:
-                msg: Reiniciar servicio {{ item.nombre }}
+          win_service:
+                name: "{{ item.nombre }}"
+                state: restarted
           loop: "{{ software }}"
           tags:
             - configuracion

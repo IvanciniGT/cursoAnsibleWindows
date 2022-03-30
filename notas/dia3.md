@@ -50,3 +50,24 @@ python3 -m pip install --upgrade pip
 
 
 echo
+
+
+# C:\Program Files (x86)\Apache Software Foundation\Apache2.2\bin> ./
+
+
+
+
+
+
+
+
+√ Instalo Apache
+√ Configuro Apache (Nos falta... pero lo he trucao para poder avanzar... luego reviso)
+· Crear servicio de apache???
+    httpd.exe -k install >>>>>>> Se crea un servicio que ejecuta que comando?                   httpd.exe -k runservice
+    Directamente creo el servicio YO, con modulo de win_service... poniendo que comando para el servicio ^^^^^
+· Asegurar que el servicio quede corriendo
+    httpd.exe -k start 
+    Directamente con modulo de win_service
+    
+

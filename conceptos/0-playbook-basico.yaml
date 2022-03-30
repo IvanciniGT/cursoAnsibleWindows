@@ -165,7 +165,6 @@
                 # - Funciones   {{ nombre-funcion(variable) }}
                 # - Filtros:    {{ variable | nombre-filtro }}
                 #    {{ texto | default('valor por defecto') }} 
-
                 #    {{ texto | upper }} Pone el valor de la variable texto en MAYUSCULAS
                 #    {{ texto | lower }} 
                 #    {{ texto | capitalize }} 
