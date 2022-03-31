@@ -1,0 +1,11 @@
+software:
+  - nombre: apache
+    #ruta_instalador: ~
+    url_instalador: "https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi"
+    configuracion_repo: "https://github.com/IvanciniGT/webEjemploAnsible"
+    configuracion_filename: "configuracion.apache"
+    configuration_file_dest: 'C:\Program Files (x86)\Apache Software Foundation\Apache2.2\conf\httpd.conf'
+    service_command: 'C:\Program Files (x86)\Apache Software Foundation\Apache2.2\bin\httpd.exe -k runservice'
+    argumentos_instalador: []
+    puertos:
+      - 80

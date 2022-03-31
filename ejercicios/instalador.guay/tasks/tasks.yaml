@@ -1,0 +1,50 @@
+- name: Asegurar que el software queda instalado en la máquina
+  win_package:
+        path: "c:\\temporal\\{{ item.nombre }}\\instalador.msi"
+        state: present
+
+  loop: "{{ software }}"
+  tags:
+    - instalacion
+# En la medida de lo posible NUNCA JAMAS NUNCA JAMAS DE LOS JAMASES EJECUTO UN COMANDO.... NUNCA !!!!
+
+# Siempre quiero ejecutar el instalador?
+# "Ejecutar instalador" es el nombre que NUNCA JAMAS DE LOS JAMASE MAS QUE LOS DE ARRIBA DE LOS JAMAS MAS NUNCA LO PONDRIA 
+# En que caso no? Si ya está instalado.
+
+- name: Asegurar que hay la configuración adecuada
+  # Copiar la configuración a la carpeta adecuada.. Desde el controlador , hasta el remoto
+  win_copy:
+    src: "/tmp/{{ item.nombre }}/configuracion/{{ item.configuracion_filename }}"
+    dest: "{{ item.configuration_file_dest }}"
+  loop: "{{ software }}"
+  tags:
+    - configuracion
+  notify: CAMBIO_CONFIGURACION_SERVICIO
+
+- name: Asegurar que hay un servicio creado y configurado
+  win_service:
+    name: "{{ item.nombre }}"
+    path: "{{ item.service_command }}"
+    display_name: "Servicio de {{ item.nombre | title }} creado desde Ansible"
+    start_mode: auto
+  loop: "{{ software }}"
+  tags:
+    - configuracion
+
+- name: Asegurar que los puertos queden abiertos
+  win_firewall_rule:
+    name: "Puerto {{ item.1 }} de {{ item.0.nombre }}"
+    localport: "{{ item.1 }}"
+    action: allow
+    direction: in
+    protocol: tcp
+    state: present
+    enabled: yes
+    # modulo... que hará la copia a la ubicacion correcta... pero entre medias... sustituirá algunos parametros
+    # Cómo me refiero a un puerto????
+    # Puerto: item[1]             item.1
+    # Nombre: item[0].nombre      item.0.nombre
+  loop: "{{ software | subelements('puertos') }}"
+  tags:
+    - configuracion

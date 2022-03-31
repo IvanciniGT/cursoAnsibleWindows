@@ -1,0 +1,32 @@
+-   hosts: all
+    
+    ## Comprobar que me están pidiendo que ejecute esto en una maquina windows.. sino, salgo y listo
+    
+    pre_tasks:
+        - name: Descargas y preparaciones
+          include_tasks: "tasks/pre_tasks.yaml"
+
+    tasks:
+        - name: Instalaciones y configuraciones adicionales
+          include_tasks: "tasks/tasks.yaml"
+
+    post_tasks:
+        - name: Comprobaciones y tareas adicionales
+          include_tasks: "tasks/post_tasks.yaml"
+
+    handlers:
+        - name: Reiniciar Servicio
+          win_service:
+                name: "{{ item.nombre }}"
+                state: restarted
+          loop: "{{ software }}"
+          tags:
+            - configuracion
+          listen:
+            - CAMBIO_CONFIGURACION_SERVICIO
+
+
+#######
+#.       $ ansible-playbook -i inventario.??? --skip-tags="preparacion,limpieza"  playbook.yaml #.       
+#.       $ ansible-playbook -i inventario.??? --tags="instalacion"  playbook.yaml 
+# ansible-playbook -i inventarios/windows.ini -e "@ejercicios/vars.mysql.yaml" ejercicios/instalador.guay/playbook.yaml 

@@ -118,6 +118,8 @@
             # De una variable siempre podreis pedir:
             # mivariable is defined
             # mivariable is undefined
+            # mivariable is not defined
+            # mivariable is not undefined
 
             
         -   name: Tarea 8 - Cambiar el fichero de configuracíon A

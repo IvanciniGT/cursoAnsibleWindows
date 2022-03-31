@@ -1,0 +1,26 @@
+-   name: Asegurar que el servicio queda iniciado
+    win_service:
+        name: "{{ item.nombre }}"
+        state: started
+    # modulo... que hará la copia a la ubicacion correcta... pero entre medias... sustituirá algunos parametros
+    loop: "{{ software }}"
+    tags:
+    - configuracion
+
+-   name: Borrar carpetas si existen
+    win_file:
+        path: c:\temporal
+        state: absent
+    tags:
+        - limpieza    
+
+-   name: Smoke Test
+    block:
+        -   name: Comprobar servicios
+            win_uri:
+                url: "http://localhost:{{ item[1] }}"
+                status_code: 200
+            loop: "{{ software | subelements('puertos') }}"
+    tags:
+        - tests
+

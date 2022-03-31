@@ -1,0 +1,60 @@
+-   name: Cargar variables
+    include_vars:
+        file: vars/vars.default.yaml
+        name: software
+    when: software is not defined
+
+-   name: Asegurarme que hay unas carpetas temporales donde ubicar recursos necesarios
+    block:
+        -   name: Carpeta temporal base
+            #debug:
+            #    msg: Asegurando que existe carpeta temporal
+            win_file:
+                path: c:\temporal
+                state: directory
+
+        -   name: Asegurando que existe carpeta para cada software
+            #debug:
+            #    msg: "Creando carpeta del software: {{ item.nombre }}"
+            win_file:
+                path: "c:\\temporal\\{{ item.nombre }}"
+                state: directory
+
+            loop: "{{ software }}"
+    tags:
+        - preparacion
+            
+-   name: Asegurarme que tengo los programas de instalación
+    block:
+        -   name: Descargar los programas de instalación que sean descargables
+            win_get_url:
+                url: "{{ item.url_instalador }}"
+                dest: "c:\\temporal\\{{ item.nombre }}\\instalador.msi"
+                force: no
+                
+            #debug:
+            #    msg: "Descarga software {{ item.url_instalador }}"
+            when: item.url_instalador is defined
+            loop: "{{ software }}"
+          
+        -   name: Traerme de un entorno de mi red un programas de instalación que ya hubiera conseguido por algún medio
+            debug:
+                msg: "Copiar software {{ item.ruta_instalador }}"
+            when: item.ruta_instalador is defined
+            loop: "{{ software }}"
+    tags:
+        - preparacion
+
+-   name: Hacerme con las configuraciones
+    block:
+        -   name: Descargar configuraciones de un scm
+            local_action: # delegate_to: localhost
+                module: git
+                repo: "{{ item.configuracion_repo }}"
+                dest: "/tmp/{{ item.nombre }}/configuracion"
+
+            when: item.configuracion_repo is defined
+            loop: "{{ software }}" # lista de valores... de donde la sacas
+    tags:
+        - preparacion
+
