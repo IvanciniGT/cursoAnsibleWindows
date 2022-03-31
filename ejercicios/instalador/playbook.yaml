@@ -7,12 +7,13 @@
               #ruta_instalador: ~
               url_instalador: "https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi"
               # Repo git con el fichero config
-              configuracion: "https://github.com/IvanciniGT/webEjemploAnsible"
-              service_command: C:\Program Files (x86)\Apache Software Foundation\Apache2.2\bin\httpd.exe -k runservice
+              configuracion_repo: "https://github.com/IvanciniGT/webEjemploAnsible"
+              configuracion_filename: "configuracion.apache"
+              configuration_file_dest: 'C:\Program Files (x86)\Apache Software Foundation\Apache2.2\conf\httpd.conf'
+              service_command: 'C:\Program Files (x86)\Apache Software Foundation\Apache2.2\bin\httpd.exe -k runservice'
               argumentos_instalador: []
               puertos:
                 - 80
-
 
     pre_tasks:
         -   name: Asegurarme que hay unas carpetas temporales donde ubicar recursos necesarios
@@ -60,9 +61,12 @@
         -   name: Hacerme con las configuraciones
             block:
                 -   name: Descargar configuraciones de un scm
-                    debug:
-                        msg: "Obtener configuraciones {{ item.configuracion }}"
-                    when: item.configuracion is defined
+                    local_action: # delegate_to: localhost
+                        module: git
+                        repo: "{{ item.configuracion_repo }}"
+                        dest: "/tmp/{{ item.nombre }}/configuracion"
+
+                    when: item.configuracion_repo is defined
                     loop: "{{ software }}" # lista de valores... de donde la sacas
             tags:
                 - preparacion
@@ -84,8 +88,10 @@
         # En que caso no? Si ya está instalado.
         
         - name: Asegurar que hay la configuración adecuada
-          debug:
-            msg: Configuración del software {{ item.configuracion }}
+          # Copiar la configuración a la carpeta adecuada.. Desde el controlador , hasta el remoto
+          win_copy:
+            src: "/tmp/{{ item.nombre }}/configuracion/{{ item.configuracion_filename }}"
+            dest: "{{ item.configuration_file_dest }}"
           loop: "{{ software }}"
           tags:
             - configuracion
@@ -102,13 +108,18 @@
             - configuracion
         
         - name: Asegurar que los puertos queden abiertos
-          debug:
-            msg: Asegurar puerto {{ item.1 }} para el programa {{ item.0.nombre }}
+          win_firewall_rule:
+            name: "Puerto {{ item.1 }} de {{ item.0.nombre }}"
+            localport: "{{ item.1 }}"
+            action: allow
+            direction: in
+            protocol: tcp
+            state: present
+            enabled: yes
         # modulo... que hará la copia a la ubicacion correcta... pero entre medias... sustituirá algunos parametros
             # Cómo me refiero a un puerto????
             # Puerto: item[1]             item.1
             # Nombre: item[0].nombre      item.0.nombre
-            
           loop: "{{ software | subelements('puertos') }}"
           tags:
             - configuracion
