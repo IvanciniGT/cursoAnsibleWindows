@@ -138,3 +138,26 @@ Instalar una aplicacion web
 App web < variable
 Requerimientos:
 Apache >= 2.12
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Montar un program ansible que permita mandar custom facts (los que me de la gana) 
+a maquinas windows o linux (las que me de la gana)
+Para poder usarlo en play books mas complejos cuando me de la gana dentro de 1 año

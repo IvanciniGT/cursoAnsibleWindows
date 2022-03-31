@@ -1,0 +1,27 @@
+- debug:
+    msg: Generando facts Windows
+
+-   name: Cargar valores por defecto si no hay valores customizados.
+    include_vars:
+        file: defaults/vars.yaml
+        name: custom_facts
+    when: custom_facts.windows_path is not defined
+
+-   name: Asegurarnos que existe la carpeta
+    win_file:
+        path: "{{ custom_facts.windows_path }}"
+        state: directory
+
+-   name: Copiar archivos de facts a la carpeta
+    win_copy:
+        src: "templates/{{ item.name }}"
+        dest: "{{ custom_facts.windows_path }}\\{{ item.name | splitext | first }}.fact"
+    when: item.only is not defined or item.only != 'linux'
+    loop: "{{ custom_facts.facts_list }}"
+        
+
+## Qué carpeta??? PARAMETRO, variable
+
+# Existe la carpeta
+
+# Copiar FACT fijo al remoto donde?

@@ -1,12 +1,31 @@
 - hosts: all
+  gather_facts: false
 
   tasks:
     - # Leer los facts de la maquina, incluyendo custom_facts
+        name:  Leo los facts
+        setup: 
+            gather_subset:
+                - '!all'
+                - 'min'
+
+    - # Leer los facts de la maquina, incluyendo custom_facts
+        name:  Leo los custom factus de Windows
+        setup: 
+            gather_subset:
+                - 'all'
+            fact_path: 'c:\temp'
+        when: ansible_facts.os_family == 'Windows'
+
     
     - # Muestro el valor de los custom_facts
+        debug:
+            var: ansible_local      # ansible_facts.ansible_local
 
     - # llamada a un conjunto de tareas que generar unos custom_facts: 
       # Por ahora uno estático
       # Ojo!!! He puesto en hosts: ALL !!!!!
       # Estas tareas en otro fichero
+        name: Generar custom facts en Remotos
+        include_tasks: "tasks/generarFacts.yaml"
 

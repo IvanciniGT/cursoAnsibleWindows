@@ -1,0 +1,3 @@
+#- include_tasks: "tasks/generarFacts.{{ 'windows' if ansible_facts.os_family == 'Windows' else 'posix' }}.yaml"
+- include_tasks: "tasks/generarFacts.{{ ansible_facts.os_family | lower }}.yaml"
+
