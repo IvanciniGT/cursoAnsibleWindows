@@ -1,0 +1,1 @@
+echo dato1=HOLA

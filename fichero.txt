@@ -1,0 +1,356 @@
+
+PLAY [all] *********************************************************************
+
+TASK [Identificando Sistema Operativo] *****************************************
+ok: [localhost]
+ok: [servidor1]
+
+TASK [debug] *******************************************************************
+ok: [localhost] => {
+    "ansible_facts": {
+        "ansible_local": {},
+        "apparmor": {
+            "status": "enabled"
+        },
+        "architecture": "x86_64",
+        "cmdline": {
+            "BOOT_IMAGE": "/boot/vmlinuz-5.4.0-1069-aws",
+            "console": "ttyS0",
+            "nvme_core.io_timeout": "4294967295",
+            "ro": true,
+            "root": "UUID=525a0bee-8b67-4eda-8945-fd2dfece58cf"
+        },
+        "date_time": {
+            "date": "2022-03-31",
+            "day": "31",
+            "epoch": "1648720926",
+            "hour": "10",
+            "iso8601": "2022-03-31T10:02:06Z",
+            "iso8601_basic": "20220331T100206370450",
+            "iso8601_basic_short": "20220331T100206",
+            "iso8601_micro": "2022-03-31T10:02:06.370450Z",
+            "minute": "02",
+            "month": "03",
+            "second": "06",
+            "time": "10:02:06",
+            "tz": "UTC",
+            "tz_dst": "UTC",
+            "tz_offset": "+0000",
+            "weekday": "Thursday",
+            "weekday_number": "4",
+            "weeknumber": "13",
+            "year": "2022"
+        },
+        "discovered_interpreter_python": "/usr/bin/python",
+        "distribution": "Ubuntu",
+        "distribution_file_parsed": true,
+        "distribution_file_path": "/etc/os-release",
+        "distribution_file_variety": "Debian",
+        "distribution_major_version": "18",
+        "distribution_release": "bionic",
+        "distribution_version": "18.04",
+        "dns": {
+            "nameservers": [
+                "127.0.0.53"
+            ],
+            "options": {
+                "edns0": true
+            },
+            "search": [
+                "eu-west-1.compute.internal"
+            ]
+        },
+        "domain": "eu-west-1.compute.internal",
+        "effective_group_id": 1000,
+        "effective_user_id": 1000,
+        "env": {
+            "C9_HOSTNAME": "3.250.64.150",
+            "C9_PID": "db7f30be30124ad59b8811fd733df58e",
+            "C9_PORT": "8080",
+            "C9_PROJECT": "AN_Ivan",
+            "C9_USER": "AN_Ivan",
+            "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+            "EDITOR": "",
+            "GEM_HOME": "/home/ubuntu/.rvm/gems/ruby-2.6.3",
+            "GEM_PATH": "/home/ubuntu/.rvm/gems/ruby-2.6.3:/home/ubuntu/.rvm/gems/ruby-2.6.3@global",
+            "HGUSER": "AN_Ivan",
+            "HISTFILESIZE": "100000",
+            "HISTSIZE": "100000",
+            "HOME": "/home/ubuntu",
+            "IP": "127.0.0.1",
+            "IRBRC": "/home/ubuntu/.rvm/rubies/ruby-2.6.3/.irbrc",
+            "ISOUTPUTPANE": "0",
+            "LANG": "C.UTF-8",
+            "LOGNAME": "ubuntu",
+            "MAIL": "/var/mail/ubuntu",
+            "MY_RUBY_HOME": "/home/ubuntu/.rvm/rubies/ruby-2.6.3",
+            "NODE_PATH": "/home/ubuntu/.c9/node_modules",
+            "NVM_BIN": "/home/ubuntu/.nvm/versions/node/v16.14.2/bin",
+            "NVM_CD_FLAGS": "",
+            "NVM_DIR": "/home/ubuntu/.nvm",
+            "NVM_INC": "/home/ubuntu/.nvm/versions/node/v16.14.2/include/node",
+            "OLDPWD": "/home/ubuntu/environment",
+            "PATH": "/home/ubuntu/.local/bin:/home/ubuntu/.rvm/gems/ruby-2.6.3/bin:/home/ubuntu/.rvm/gems/ruby-2.6.3@global/bin:/home/ubuntu/.rvm/rubies/ruby-2.6.3/bin:/home/ubuntu/.nvm/versions/node/v16.14.2/bin:/home/ubuntu/.local/bin:/home/ubuntu/.rvm/gems/ruby-2.6.3/bin:/home/ubuntu/.rvm/gems/ruby-2.6.3@global/bin:/home/ubuntu/.rvm/rubies/ruby-2.6.3/bin:/home/ubuntu/.rvm/gems/ruby-2.6.3/bin:/home/ubuntu/.rvm/gems/ruby-2.6.3@global/bin:/home/ubuntu/.rvm/rubies/ruby-2.6.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/ubuntu/.local/bin:/home/ubuntu/bin:/usr/local/bin:/home/ubuntu/.rvm/bin:/home/ubuntu/.local/bin:/home/ubuntu/bin:/usr/local/bin:/home/ubuntu/.rvm/bin:/home/ubuntu/.rvm/bin:/home/ubuntu/.local/bin:/home/ubuntu/bin:/usr/local/bin:/home/ubuntu/.rvm/bin:/home/ubuntu/.rvm/bin",
+            "PORT": "8080",
+            "PROMPT_COMMAND": "history -a;",
+            "PWD": "/home/ubuntu/environment/curso/ejercicios/instalador.guay",
+            "RUBY_VERSION": "ruby-2.6.3",
+            "SHELL": "/bin/bash",
+            "SHLVL": "5",
+            "SSH_CLIENT": "34.245.205.64 52028 22",
+            "SSH_CONNECTION": "34.245.205.64 52028 172.31.8.35 22",
+            "TERM": "screen",
+            "TMUX": "/tmp/tmux-1000/cloud92.2,12993,0",
+            "TMUX_PANE": "%0",
+            "USER": "ubuntu",
+            "XDG_DATA_DIRS": "/usr/local/share:/usr/share:/var/lib/snapd/desktop",
+            "XDG_RUNTIME_DIR": "/run/user/1000",
+            "XDG_SESSION_ID": "3",
+            "_": "/usr/local/bin/ansible-playbook",
+            "rvm_bin_path": "/home/ubuntu/.rvm/bin",
+            "rvm_path": "/home/ubuntu/.rvm",
+            "rvm_prefix": "/home/ubuntu",
+            "rvm_version": "1.29.8 (1.29.8)"
+        },
+        "fips": false,
+        "fqdn": "ip-172-31-8-35.eu-west-1.compute.internal",
+        "gather_subset": [
+            "!all"
+        ],
+        "hostname": "ip-172-31-8-35",
+        "kernel": "5.4.0-1069-aws",
+        "kernel_version": "#73~18.04.1-Ubuntu SMP Mon Mar 14 18:47:48 UTC 2022",
+        "lsb": {
+            "codename": "bionic",
+            "description": "Ubuntu 18.04.6 LTS",
+            "id": "Ubuntu",
+            "major_release": "18",
+            "release": "18.04"
+        },
+        "machine": "x86_64",
+        "machine_id": "ec26066371c6d2e14a06ed73a93f59c5",
+        "module_setup": true,
+        "nodename": "ip-172-31-8-35",
+        "os_family": "Debian",
+        "pkg_mgr": "apt",
+        "proc_cmdline": {
+            "BOOT_IMAGE": "/boot/vmlinuz-5.4.0-1069-aws",
+            "console": [
+                "tty1",
+                "ttyS0"
+            ],
+            "nvme_core.io_timeout": "4294967295",
+            "ro": true,
+            "root": "UUID=525a0bee-8b67-4eda-8945-fd2dfece58cf"
+        },
+        "python": {
+            "executable": "/usr/bin/python",
+            "has_sslcontext": true,
+            "type": "CPython",
+            "version": {
+                "major": 2,
+                "micro": 17,
+                "minor": 7,
+                "releaselevel": "final",
+                "serial": 0
+            },
+            "version_info": [
+                2,
+                7,
+                17,
+                "final",
+                0
+            ]
+        },
+        "python_version": "2.7.17",
+        "real_group_id": 1000,
+        "real_user_id": 1000,
+        "selinux": {
+            "status": "disabled"
+        },
+        "selinux_python_present": true,
+        "service_mgr": "systemd",
+        "ssh_host_key_dsa_public": "AAAAB3NzaC1kc3MAAACBANHjDc0CWOwdBeDNZtwEENFqEk1AQEkf3OxUXEcl7EeNnt7pzf9qOn9dieD6vTigExsKna/Lwy3bU24ogqS2w6LoAiRYmv4bf97MR4hUKpsftEDrLm3+9slLGxYq8kZu12jkmL6KpYy2udNL5mUtGSYnfEKRUZkhbFrnDcOT1IrNAAAAFQDWJ6amvWh5xtBcU2AhbX1BOkmCDwAAAIAsFDEM+vajP96kQRSmkikvogXy4xhRYwQn4j2T/cyI/a/THGpPlcG0bbUPzm5j2HObJYFQw4BuJt/eidus6JwkyroS8417koT6G6hfV78eBnn597P+LjPnaTGa1bJK50AiWFBnCKc1qE8f2tnpCJyk/z9W7hxT9MkGGXHWgu2nnQAAAIBnYg1RiMZb/0g9rawdvZ2+sSJ8L6YwN3XBdHE/PKVhsALq8WbFvb0gN70ZLsP4C8tmS8OOZYIkJxb2p/msMLXbT/FLSyvP3si8jvoIY4+lFR+bOw2kjhfvwIotZnh2oI2gpD7xOd+vIDP0RwKvpmC5pONtSxNjOnFeBPtrytT5Rw==",
+        "ssh_host_key_dsa_public_keytype": "ssh-dss",
+        "ssh_host_key_ecdsa_public": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHtZHGTQL0Kpkr0FQMlbRtahCbayBf3uXBimMR0/u8LS+rJt7RGK/E48HKaTwkD9jHQsYS5cVXFZXn6yd+p9IsE=",
+        "ssh_host_key_ecdsa_public_keytype": "ecdsa-sha2-nistp256",
+        "ssh_host_key_ed25519_public": "AAAAC3NzaC1lZDI1NTE5AAAAIGyE8iUa5lcr7/2rigAdm+jMunpEdggSqJDFUxcwDcCi",
+        "ssh_host_key_ed25519_public_keytype": "ssh-ed25519",
+        "ssh_host_key_rsa_public": "AAAAB3NzaC1yc2EAAAADAQABAAABAQC1uKjIX0Bpe6jsi2i3aK2BY+OJe2mfoFgl97UXKLFqPxgEInD37GGICzbeF2492tb3JuL43dy4J158R+7F/SP/0efBZDcCtleVUMnJrGj8VX3NTLiceSR5gxvBpOUPwsRyQJjzk+8j0vt93ihNnrfueeipqnwDTKIESO1MkpgKHE4dzDV6e/1LYT/PVKjA95y9bfQ6CdcBYnaSbDXQv3AOlPVfSMvDrKe9BKy8z6eRLTy6CZs0b3WdeX5wH2m07s63tnwTMkK9fbjpkonjinafFoqhU9xV1NkArGuVPTbfG7vn/zlG3BHhuvZ6wMswRaP9QDJOgrvGeGpEKGzizURD",
+        "ssh_host_key_rsa_public_keytype": "ssh-rsa",
+        "system": "Linux",
+        "system_capabilities": [
+            ""
+        ],
+        "system_capabilities_enforced": "True",
+        "user_dir": "/home/ubuntu",
+        "user_gecos": "Ubuntu",
+        "user_gid": 1000,
+        "user_id": "ubuntu",
+        "user_shell": "/bin/bash",
+        "user_uid": 1000,
+        "userspace_architecture": "x86_64",
+        "userspace_bits": "64"
+    }
+}
+ok: [servidor1] => {
+    "ansible_facts": {
+        "architecture": "64-bit",
+        "architecture2": "x86_64",
+        "date_time": {
+            "date": "2022-03-31",
+            "day": "31",
+            "epoch": "1648720926.5957",
+            "epoch_int": 1648720927,
+            "epoch_local": "1648720926.5957",
+            "hour": "10",
+            "iso8601": "2022-03-31T10:02:06Z",
+            "iso8601_basic": "20220331T100206595700",
+            "iso8601_basic_short": "20220331T100206",
+            "iso8601_micro": "2022-03-31T10:02:06.595700Z",
+            "minute": "02",
+            "month": "03",
+            "second": "06",
+            "time": "10:02:06",
+            "tz": "UTC",
+            "tz_offset": "+00:00",
+            "weekday": "Thursday",
+            "weekday_number": "4",
+            "weeknumber": "12",
+            "year": "2022"
+        },
+        "distribution": "Microsoft Windows Server 2019 Datacenter",
+        "distribution_major_version": "10",
+        "distribution_version": "10.0.17763.0",
+        "domain": "",
+        "env": {
+            "ALLUSERSPROFILE": "C:\\ProgramData",
+            "APPDATA": "C:\\Users\\Administrator\\AppData\\Roaming",
+            "AWS_EXECUTION_ENV": "EC2",
+            "COMPUTERNAME": "EC2AMAZ-QJ7O1OC",
+            "ComSpec": "C:\\Windows\\system32\\cmd.exe",
+            "CommonProgramFiles": "C:\\Program Files\\Common Files",
+            "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+            "CommonProgramW6432": "C:\\Program Files\\Common Files",
+            "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+            "EC2LAUNCH_TELEMETRY": "1",
+            "HOMEDRIVE": "C:",
+            "HOMEPATH": "\\Users\\Administrator",
+            "LOCALAPPDATA": "C:\\Users\\Administrator\\AppData\\Local",
+            "LOGONSERVER": "\\\\EC2AMAZ-QJ7O1OC",
+            "NUMBER_OF_PROCESSORS": "2",
+            "OS": "Windows_NT",
+            "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL",
+            "PROCESSOR_ARCHITECTURE": "AMD64",
+            "PROCESSOR_IDENTIFIER": "Intel64 Family 6 Model 63 Stepping 2, GenuineIntel",
+            "PROCESSOR_LEVEL": "6",
+            "PROCESSOR_REVISION": "3f02",
+            "PROMPT": "$P$G",
+            "PSExecutionPolicyPreference": "Unrestricted",
+            "PSModulePath": "C:\\Users\\Administrator\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules;C:\\Program Files (x86)\\AWS Tools\\PowerShell",
+            "PUBLIC": "C:\\Users\\Public",
+            "Path": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\Amazon\\cfn-bootstrap\\;C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps",
+            "ProgramData": "C:\\ProgramData",
+            "ProgramFiles": "C:\\Program Files",
+            "ProgramFiles(x86)": "C:\\Program Files (x86)",
+            "ProgramW6432": "C:\\Program Files",
+            "SystemDrive": "C:",
+            "SystemRoot": "C:\\Windows",
+            "TEMP": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp",
+            "TMP": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp",
+            "USERDOMAIN": "EC2AMAZ-QJ7O1OC",
+            "USERDOMAIN_ROAMINGPROFILE": "EC2AMAZ-QJ7O1OC",
+            "USERNAME": "Administrator",
+            "USERPROFILE": "C:\\Users\\Administrator",
+            "windir": "C:\\Windows"
+        },
+        "fqdn": "EC2AMAZ-QJ7O1OC",
+        "gather_subset": [
+            "!all"
+        ],
+        "hostname": "EC2AMAZ-QJ7O1OC",
+        "kernel": "10.0.17763.0",
+        "machine_id": "S-1-5-21-2465628386-937942802-3350868877",
+        "module_setup": true,
+        "netbios_name": "EC2AMAZ-QJ7O1OC",
+        "nodename": "EC2AMAZ-QJ7O1OC",
+        "os_family": "Windows",
+        "os_installation_type": "Server",
+        "os_name": "Microsoft Windows Server 2019 Datacenter",
+        "os_product_type": "server",
+        "owner_contact": "",
+        "owner_name": "EC2",
+        "powershell_version": 5,
+        "reboot_pending": false,
+        "system": "Win32NT",
+        "system_description": "",
+        "system_vendor": "Xen",
+        "user_dir": "C:\\Users\\Administrator",
+        "user_gecos": "",
+        "user_id": "Administrator",
+        "user_sid": "S-1-5-21-2465628386-937942802-3350868877-500"
+    }
+}
+
+TASK [debug] *******************************************************************
+ok: [localhost] => {
+    "msg": "Esta máquina no es windows... se ignora el trabajo en esa máquina"
+}
+skipping: [servidor1]
+
+TASK [Descargas y preparaciones] ***********************************************
+skipping: [localhost]
+included: /home/ubuntu/environment/curso/ejercicios/instalador.guay/tasks/pre_tasks.yaml for servidor1
+
+TASK [Cargar variables] ********************************************************
+skipping: [servidor1]
+
+TASK [Carpeta temporal base] ***************************************************
+ok: [servidor1]
+
+TASK [Asegurando que existe carpeta para cada software] ************************
+ok: [servidor1] => (item={'nombre': 'apache', 'url_instalador': 'https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi', 'configuracion_repo': 'https://github.com/IvanciniGT/webEjemploAnsible', 'configuracion_filename': 'configuracion.apache', 'configuration_file_dest': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\conf\\httpd.conf', 'service_command': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe -k runservice', 'argumentos_instalador': [], 'puertos': [80]})
+
+TASK [Descargar los programas de instalación que sean descargables] ************
+ok: [servidor1] => (item={'nombre': 'apache', 'url_instalador': 'https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi', 'configuracion_repo': 'https://github.com/IvanciniGT/webEjemploAnsible', 'configuracion_filename': 'configuracion.apache', 'configuration_file_dest': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\conf\\httpd.conf', 'service_command': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe -k runservice', 'argumentos_instalador': [], 'puertos': [80]})
+
+TASK [Traerme de un entorno de mi red un programas de instalación que ya hubiera conseguido por algún medio] ***
+skipping: [servidor1] => (item={'nombre': 'apache', 'url_instalador': 'https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi', 'configuracion_repo': 'https://github.com/IvanciniGT/webEjemploAnsible', 'configuracion_filename': 'configuracion.apache', 'configuration_file_dest': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\conf\\httpd.conf', 'service_command': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe -k runservice', 'argumentos_instalador': [], 'puertos': [80]}) 
+skipping: [servidor1]
+
+TASK [Descargar configuraciones de un scm] *************************************
+ok: [servidor1 -> localhost] => (item={'nombre': 'apache', 'url_instalador': 'https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi', 'configuracion_repo': 'https://github.com/IvanciniGT/webEjemploAnsible', 'configuracion_filename': 'configuracion.apache', 'configuration_file_dest': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\conf\\httpd.conf', 'service_command': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe -k runservice', 'argumentos_instalador': [], 'puertos': [80]})
+
+TASK [Instalaciones y configuraciones adicionales] *****************************
+skipping: [localhost]
+included: /home/ubuntu/environment/curso/ejercicios/instalador.guay/tasks/tasks.yaml for servidor1
+
+TASK [Asegurar que el software queda instalado en la máquina] ******************
+ok: [servidor1] => (item={'nombre': 'apache', 'url_instalador': 'https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi', 'configuracion_repo': 'https://github.com/IvanciniGT/webEjemploAnsible', 'configuracion_filename': 'configuracion.apache', 'configuration_file_dest': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\conf\\httpd.conf', 'service_command': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe -k runservice', 'argumentos_instalador': [], 'puertos': [80]})
+
+TASK [Asegurar que hay la configuración adecuada] ******************************
+ok: [servidor1] => (item={'nombre': 'apache', 'url_instalador': 'https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi', 'configuracion_repo': 'https://github.com/IvanciniGT/webEjemploAnsible', 'configuracion_filename': 'configuracion.apache', 'configuration_file_dest': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\conf\\httpd.conf', 'service_command': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe -k runservice', 'argumentos_instalador': [], 'puertos': [80]})
+
+TASK [Asegurar que hay un servicio creado y configurado] ***********************
+ok: [servidor1] => (item={'nombre': 'apache', 'url_instalador': 'https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi', 'configuracion_repo': 'https://github.com/IvanciniGT/webEjemploAnsible', 'configuracion_filename': 'configuracion.apache', 'configuration_file_dest': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\conf\\httpd.conf', 'service_command': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe -k runservice', 'argumentos_instalador': [], 'puertos': [80]})
+
+TASK [Asegurar que los puertos queden abiertos] ********************************
+ok: [servidor1] => (item=[{'nombre': 'apache', 'url_instalador': 'https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi', 'configuracion_repo': 'https://github.com/IvanciniGT/webEjemploAnsible', 'configuracion_filename': 'configuracion.apache', 'configuration_file_dest': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\conf\\httpd.conf', 'service_command': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe -k runservice', 'argumentos_instalador': [], 'puertos': [80]}, 80])
+
+TASK [Comprobaciones y tareas adicionales] *************************************
+skipping: [localhost]
+included: /home/ubuntu/environment/curso/ejercicios/instalador.guay/tasks/post_tasks.yaml for servidor1
+
+TASK [Asegurar que el servicio queda iniciado] *********************************
+ok: [servidor1] => (item={'nombre': 'apache', 'url_instalador': 'https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi', 'configuracion_repo': 'https://github.com/IvanciniGT/webEjemploAnsible', 'configuracion_filename': 'configuracion.apache', 'configuration_file_dest': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\conf\\httpd.conf', 'service_command': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe -k runservice', 'argumentos_instalador': [], 'puertos': [80]})
+
+TASK [Borrar carpetas si existen] **********************************************
+changed: [servidor1]
+
+TASK [Comprobar servicios] *****************************************************
+ok: [servidor1] => (item=[{'nombre': 'apache', 'url_instalador': 'https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi', 'configuracion_repo': 'https://github.com/IvanciniGT/webEjemploAnsible', 'configuracion_filename': 'configuracion.apache', 'configuration_file_dest': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\conf\\httpd.conf', 'service_command': 'C:\\Program Files (x86)\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe -k runservice', 'argumentos_instalador': [], 'puertos': [80]}, 80])
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   
+servidor1                  : ok=16   changed=1    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   
+

@@ -1,18 +1,24 @@
 -   hosts: all
     
-    ## Comprobar que me están pidiendo que ejecute esto en una maquina windows.. sino, salgo y listo
+    gather_facts: false
     
     pre_tasks:
+        - name: Identificar Sistema Operativo
+          include_tasks: "tasks/pre_tasks_os.yaml"
+
         - name: Descargas y preparaciones
           include_tasks: "tasks/pre_tasks.yaml"
+          when: ansible_facts.os_family == 'Windows'
 
     tasks:
         - name: Instalaciones y configuraciones adicionales
           include_tasks: "tasks/tasks.yaml"
+          when: ansible_facts.os_family == 'Windows'
 
     post_tasks:
         - name: Comprobaciones y tareas adicionales
           include_tasks: "tasks/post_tasks.yaml"
+          when: ansible_facts.os_family == 'Windows'
 
     handlers:
         - name: Reiniciar Servicio

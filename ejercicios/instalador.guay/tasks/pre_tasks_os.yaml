@@ -1,0 +1,17 @@
+# Regular.... tirando a mal!
+# Y si este playbook, está siendo llamado por otro, que hace más cosas?
+# Máquina -> playbook: instalar_apache_win instalar_apache_linux instalar_app_win instalar_app_linux
+# Máquina -> playbook: instalar_apache_win instalar_apache_linux instalar_app
+-   name: Identificando Sistema Operativo
+    setup:
+        gather_subset:
+            - '!all'        # Según documentación, solo se trae el minimo
+
+#- debug:
+#     var: ansible_facts
+
+-   debug: 
+        msg: Esta máquina no es windows... se ignora el trabajo en esa máquina
+    #- meta: end_host
+    when: ansible_facts.os_family != 'Windows'
+

@@ -1,0 +1,12 @@
+- hosts: all
+
+  tasks:
+    - # Leer los facts de la maquina, incluyendo custom_facts
+    
+    - # Muestro el valor de los custom_facts
+
+    - # llamada a un conjunto de tareas que generar unos custom_facts: 
+      # Por ahora uno estático
+      # Ojo!!! He puesto en hosts: ALL !!!!!
+      # Estas tareas en otro fichero
+
