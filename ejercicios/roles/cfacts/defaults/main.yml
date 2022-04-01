@@ -1,0 +1,5 @@
+---
+windows_path: 'c:\temp'
+
+facts_list_to_load: []
+facts_list_to_save: []

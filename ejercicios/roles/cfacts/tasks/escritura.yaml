@@ -1,0 +1,54 @@
+-   name:  Guardo los custom facts de Windows
+    block:
+        
+        -   name: Asegurarnos que existe la carpeta
+            win_file:
+                path: "{{ windows_path }}"
+                state: directory
+        
+        -   name: Guardar custom fact estático
+            win_template:
+                src: "templates/data.ps1"
+                dest: "{{ windows_path }}\\{{ item.name }}.ps1"
+        
+            when: item.data is defined
+            loop: "{{ facts_list_to_save }}"
+
+        
+        -   name: Guardar custom fact dinamicos
+            win_template:
+                src: "{{ item.program.windows }}"
+                dest: "{{ windows_path }}\\{{ item.name }}.ps1"
+        
+            when: item.program is defined
+            loop: "{{ facts_list_to_save }}"
+
+    when: ansible_facts.os_family == 'Windows'
+
+-   name:  Guardo los custom facts de Otros SO
+    block:
+        
+        -   name: Asegurarnos que existe la carpeta
+            win_file:
+                path: "/etc/ansible/facts.d"
+                state: directory
+        
+        -   name: Guardar custom fact estático
+            win_template:
+                src: "templates/data.json"
+                dest: "/etc/ansible/facts.d/{{ item.name }}.fact"
+        
+            when: item.data is defined
+            loop: "{{ facts_list_to_save }}"
+
+        
+        -   name: Guardar custom fact dinamicos
+            template:
+                src: "{{ item.program.linux }}"
+                dest: "/etc/ansible/facts.d/{{ item.name }}.fact"
+                mode: 0775
+
+            when: item.program is defined
+            loop: "{{ facts_list_to_save }}"
+
+    when: ansible_facts.os_family != 'Windows'

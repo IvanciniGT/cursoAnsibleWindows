@@ -1,0 +1,24 @@
+
+-   # Si es windows... Debo reeler los custom facts...
+    # Y además tengo otro problema gordo... 
+    #       los custom facts no se guardan en la variable ansible_local
+    #       En el ansible_facts... tiraos por ahi.
+    name:  Leo los custom facts de Windows
+    block:
+        -   name: Reeler custom facts en el directorio adecuado
+            setup: 
+                gather_subset:
+                    - 'all'
+                fact_path: "{{ windows_path }}"
+            
+        -   name: Añadir las variables que haya querido leer, en ansible_local
+            set_fact:
+                ansible_local: >
+                            {{ ansible_local | default( {} ) | combine (
+                                { 
+                                    {{ item.name }}: ansible_facts[ {{ item.name }} ] 
+                                }
+                            ) }}
+            loop: "{{ facts_list_lo_load }}"
+
+    when: ansible_facts.os_family == 'Windows'

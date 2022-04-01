@@ -1,0 +1,23 @@
+---
+# Este fichero lo crea: EL DESARROLLOR DEL ROLE: Ivan
+
+- # Leer los facts de la maquina, los minimos, para saber SO
+  # De hecho, si es linux, ahi me vendrán los custom facts
+  # Si es windows no.
+    name:  Leo los facts para saber mi SO
+    setup: 
+        gather_subset:
+            - '!all'
+            - 'min'
+
+# Leer custom facts
+- name: Tareas de lectura 
+  include_tasks: lectura.yaml
+  when: facts_list_lo_load.length() > 0
+
+- name: Tareas de escritura 
+  include_tasks: escritura.yaml
+  when: facts_list_to_save.length() > 0
+# Generar Custom fact dinámico
+
+# Generar Custom_fact estático

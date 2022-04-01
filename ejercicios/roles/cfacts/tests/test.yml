@@ -1,0 +1,17 @@
+---
+# Y que necesita en un momento dado: Leer un custom fact de windows.
+- name: Instalar una nueva version de una app que tenemos montada en la casa que corre en apache.
+  hosts: localhost
+
+  vars:
+    software:
+      - apache:
+          puertos: 
+            - 80
+# Este lo crea alguien que monta un PLAYBOOK: LUCAS
+  tasks:
+    - name: LEER custom facts
+      include_role: cfacts
+      vars: 
+        facts_list_lo_load: 
+          - name: puerto_apache

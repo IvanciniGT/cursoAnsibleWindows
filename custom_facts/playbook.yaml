@@ -5,7 +5,13 @@
     usuario:
         nombre: Ivan
         email: ivan@ivan.es
-        
+    
+    dato:
+        nombre: bbdd.produccion.es
+        usuario: Administrador
+        servicios: 
+            puerto: 1028
+            protocol: tcp
 
   tasks:
     - # Leer los facts de la maquina, incluyendo custom_facts

@@ -1,0 +1,22 @@
+---
+# Y que necesita en un momento dado: Leer un custom fact de windows.
+- name: Instalar una nueva version de una app que tenemos montada en la casa que corre en apache.
+  hosts: all
+
+# Este lo crea alguien que monta otro PLAYBOOK: JHONNY
+
+  tasks:
+    - name: GUARDAR un custom fact
+      include_role: 
+        name: cfacts
+      vars: 
+        facts_list_to_save: 
+          - name: puerto_apache
+            data:
+              puerto: 80
+              protocolo: tcp
+
+#          - name: puerto_apache
+#            program:
+#              linux:   script-puerto-apache.sh # .fact ... permisos de ejecucion
+#              windows: script-puerto-apache.ps1

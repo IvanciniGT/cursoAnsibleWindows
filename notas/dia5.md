@@ -46,3 +46,72 @@ Ansible Tower: 20 horas
 
 
 
+
+
+----
+
+# PLAYBOOK:
+
+Un conjunto de plays
+
+# PLAY:
+
+Un conjunto de tasks??? Seguro??? Solo???
++ donde se ejecuta : hosts
++ gather_facts:
++ order inventario...
++ vars
+
+# ROLE
+
+Un conjunto de tasks
+Con sus variables
+PUNTO PELOTA !
+
+Puede ejecutarse un role? NO... donde? si no tiene hosts
+
+# Dentro de un playbook puedo pedir que se ejecute un role
+
+Hasta ahora nuestros plays, tenían tareas. listados de tareas.
+A partir de ahora, nuestros plays podrán tener alguna tarea... pocas.. si no tienen niguna mejor que mejor.
+Lo que tendrán es roles que se ejecutarán.
+
+Role: Permite crear un conjunto de tareas reutilizables
+
+ROLE: 
+    tasks/main.yaml             Aquí estarán las tareas que se deben ejecutar cuando desde un play
+                                se solicite la ejecución del rol
+    handlers/main.yaml          Handlers del role
+    templates/                  Aquí pondremos ficheros que sean procesados con modulos:
+                                    template
+                                    win_template
+                                    Lo que ponemos asquí por tanto son ficheros JINJA !!!
+    files/                      Aquí pondremos ficheros que vayamos a copiar a un remoto... sin alterar
+                                    copy
+                                    win_copy
+    vars/main.yaml              Variables internas que usa mi role. Nadie sabe que existen salvo yo
+    defaults/main.yaml          Variables que la gente que vaya a usar mi role debe suministrar
+    test/                       Playbook de prueba para que la gente sepa como usar este role y 
+                                comprobar si funciona.
+
+
+
+ROLE
+Un role, puede hacer una única funcionalidad o varias... en funcion de la parametrización que quiera poner
+
+Quiero poder pedir al role varias operaciones diferentes:
+
+1- Lee los custom facts que a mi me interese de una máquina windows o linux
+
+2- Guarda un custom_fact dinámico: script
+    version windows
+        ps1
+    version posix
+        sh
+
+3- Guardar un dato (variable) como custom_fact
+    version posix
+        dato.fact (json)
+    version windows 
+        dato.ps1
+        
