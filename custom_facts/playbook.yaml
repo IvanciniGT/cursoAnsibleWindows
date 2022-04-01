@@ -1,6 +1,12 @@
 - hosts: all
   gather_facts: false
 
+  vars:
+    usuario:
+        nombre: Ivan
+        email: ivan@ivan.es
+        
+
   tasks:
     - # Leer los facts de la maquina, incluyendo custom_facts
         name:  Leo los facts
@@ -27,7 +33,7 @@
             var: ansible_facts      # ansible_facts.ansible_local
     
     -   set_fact:
-            VARIABLE_PLANTILLA: 33
+            VARIABLE_PLANTILLA: APACHE
 
 
     - # llamada a un conjunto de tareas que generar unos custom_facts: 
