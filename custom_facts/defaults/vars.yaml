@@ -1,11 +1,5 @@
 windows_path: 'c:\temp'
 
 facts_list:
-    -   name: fact1.json
-#    -   name: fact2.ini
-#    -   name: fact3.ps1
-#        only: windows
-#    -   name: fact3.sh
-#        only: linux
-#    -   name: fact4.py
-        
+    -   name: prueba.ps1
+    
