@@ -1,1 +1,1 @@
-echo 'valor'
+echo "{{ VARIABLE_PLANTILLA }}"

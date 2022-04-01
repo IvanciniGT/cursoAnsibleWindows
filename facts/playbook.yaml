@@ -1,0 +1,35 @@
+- hosts: localhost
+  vars:
+    nombre_maquina: A calcular....
+    usuario:
+        nombre: desconocido
+        email:  ivan@ivan.com
+    
+  tasks:
+
+    - name: Mostrar el nombre de la máquina
+      debug:
+        var: nombre_maquina
+
+    - name: Ejecuto comando que devuelve un valor
+        # OJO: shell o win_shell siempre identifica cambios a priori
+      shell: |
+        hostname
+      changed_when: false
+      register: comando_hostname
+    
+    - name: Mostrar hostname
+      # Asigna un nuevo valor a una variable
+      set_fact:
+        nombre_maquina: "{{ comando_hostname.stdout_lines[0] }}"
+        
+    - name: Mostrar el nombre de la máquina
+      debug:
+        var: nombre_maquina
+    
+    # FACT:
+    #. Es una variable que tengo para cada entorno administrador en tiempo de ejecucación
+
+    # CUSTOM_FACT: 
+    #. Es una variable que se recupera al conectar con un entorno administrado.
+    #. Su valor se puede generar dinámicamente (mediante un script) o estar definido estáticamente (json, ini- solo linux. en windows no)

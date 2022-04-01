@@ -13,7 +13,7 @@
         state: directory
 
 -   name: Copiar archivos de facts a la carpeta
-    win_copy:
+    win_template:
         src: "templates/{{ item.name }}"
         dest: "{{ custom_facts.windows_path }}\\{{ item.name | splitext | first }}.ps1"
     when: item.only is not defined or item.only != 'linux'
