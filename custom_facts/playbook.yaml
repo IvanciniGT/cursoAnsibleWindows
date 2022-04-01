@@ -25,6 +25,10 @@
     - # Muestro el valor de los custom_facts
         debug:
             var: ansible_facts      # ansible_facts.ansible_local
+    
+    -   set_fact:
+            VARIABLE_PLANTILLA: 33
+
 
     - # llamada a un conjunto de tareas que generar unos custom_facts: 
       # Por ahora uno estático

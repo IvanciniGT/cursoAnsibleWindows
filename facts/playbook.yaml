@@ -1,7 +1,7 @@
 - hosts: localhost
   vars:
     nombre_maquina: A calcular....
-    usuario:
+    usuario: # Mapa / diccionario / Objeto
         nombre: desconocido
         email:  ivan@ivan.com
     
@@ -22,6 +22,7 @@
       # Asigna un nuevo valor a una variable
       set_fact:
         nombre_maquina: "{{ comando_hostname.stdout_lines[0] }}"
+        otra_varible: 23
         
     - name: Mostrar el nombre de la máquina
       debug:
@@ -33,3 +34,34 @@
     # CUSTOM_FACT: 
     #. Es una variable que se recupera al conectar con un entorno administrado.
     #. Su valor se puede generar dinámicamente (mediante un script) o estar definido estáticamente (json, ini- solo linux. en windows no)
+    
+    
+    - name: "Leer nombre de usuario de un programa: whoami"
+      shell: |
+        whoami
+      changed_when: false
+      register: comando_whoami
+      
+
+    - name: "Guardarlo como nombre del usaurio"
+      # Los diccionarios/mapa/objeto en ansible no son editables.
+      # Hay que recrearlas !!!
+      set_fact:
+        usuario:  # RUINA !!!! Si tengo muchos... lo flipo !!!
+            nombre: "{{ comando_whoami.stdout_lines[0] }}"
+            email:  "{{ usuario.email }}"
+        
+        usuario: >
+                    {{ usuario | combine( 
+                                    { 'nombre': comando_whoami.stdout_lines[0] } 
+                                ) 
+                    }}
+            # Combinar con un Diccionario nuevo...
+    - name: "Mostrar usuario"
+      debug:
+        var: usuario
+
+    - name: "Mostrar nombre usuario"
+      debug:
+        msg: "{{ usuario.nombre }}"
+    
